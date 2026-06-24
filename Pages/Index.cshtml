@@ -8,8 +8,8 @@
 
 <form method="get" class="mb-3">
   <div class="input-group">
-    <input name="q" value="@Model.Q" class="form-control" placeholder="Buscar..." />
-    <input name="category" value="@Model.Category" class="form-control" placeholder="Categoría" />
+    <input name="q" class="form-control" placeholder="Buscar..." />
+    <input name="category" class="form-control" placeholder="Categoría" />
     <button class="btn btn-outline-primary">Buscar</button>
   </div>
 </form>
@@ -19,15 +19,18 @@
   {
     <div class="col-md-4 mb-3">
       <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">
-            <a href="@l.Url" target="_blank" rel="noopener">@l.Title</a>
-            @if(l.IsFavorite) { <span class="badge bg-warning text-dark">Favorito</span> }
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title mb-2">
+            <a href="@l.Url" target="_blank" rel="noopener noreferrer">@l.Title</a>
+            @if(l.IsFavorite) { <span class="badge bg-warning text-dark ms-2">Favorito</span> }
           </h5>
-          <p class="card-text">@l.Description</p>
-        </div>
-        <div class="card-footer text-muted small">
-          @l.Category @if(!string.IsNullOrWhiteSpace(l.Tags)) { <span>— @l.Tags</span> }
+          <p class="card-text flex-grow-1">@l.Description</p>
+          <div>
+            <small class="text-muted">@l.Category</small>
+            @if(!string.IsNullOrWhiteSpace(l.Tags)) {
+              <span class="text-muted"> — @l.Tags</span>
+            }
+          </div>
         </div>
       </div>
     </div>
