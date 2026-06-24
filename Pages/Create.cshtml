@@ -1,0 +1,35 @@
+@page
+@model PanelDeControl.Pages.CreateModel
+
+<h2>Añadir enlace</h2>
+
+<form method="post">
+  <div class="mb-3">
+    <label class="form-label">Título</label>
+    <input asp-for="Link.Title" class="form-control" />
+    <span asp-validation-for="Link.Title" class="text-danger"></span>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">URL</label>
+    <input asp-for="Link.Url" class="form-control" />
+    <span asp-validation-for="Link.Url" class="text-danger"></span>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Descripción</label>
+    <textarea asp-for="Link.Description" class="form-control"></textarea>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Categoría</label>
+    <input asp-for="Link.Category" class="form-control" />
+  </div>
+  <div class="mb-3 form-check">
+    <input asp-for="Link.IsFavorite" class="form-check-input" />
+    <label class="form-check-label">Favorito</label>
+  </div>
+  <button class="btn btn-primary">Guardar</button>
+  <a class="btn btn-secondary" href="/">Cancelar</a>
+</form>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}
