@@ -13,8 +13,23 @@ builder.Services.AddRazorPages();
 var connection = builder.Configuration.GetConnectionString("DefaultConnection")
                  ?? Environment.GetEnvironmentVariable("SUPABASE_CONNECTION");
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connection));
+var useSqliteFallback = string.IsNullOrWhiteSpace(connection)
+                        || connection.Contains("your-supabase-host", StringComparison.OrdinalIgnoreCase)
+                        || connection.StartsWith("Host=your-supabase-host", StringComparison.OrdinalIgnoreCase);
+
+if (useSqliteFallback)
+{
+    // Fallback to local SQLite for development when no valid Supabase connection is configured
+    Console.WriteLine("[Info] No valid Supabase connection detected — using local SQLite (links.db) as fallback.");
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlite("Data Source=links.db"));
+}
+else
+{
+    Console.WriteLine("[Info] Using Supabase/Postgres connection from configuration.");
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(connection));
+}
 
 builder.Services.AddScoped<ILinkRepository, EfLinkRepository>();
 builder.Services.AddScoped<ILinkService, LinkService>();
